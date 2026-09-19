@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer A - Penawaran | WebRTC + ZKP</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+            background: #f5f7fa;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .info {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .sukses {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .gagal {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .tombol {
+            padding: 10px 18px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .tombol.zkp {
+            background: #9c27b0;
+            color: white;
+        }
+
+        .tombol.jwt {
+            background: #2196f3;
+            color: white;
+        }
+
+        .tombol:disabled {
+            background: #bdbdbd;
+            cursor: not-allowed;
+        }
+
+        video {
+            width: 100%;
+            max-width: 420px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+        }
+
+        .konten {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .kolom {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .log {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            height: 150px;
+            overflow-y: auto;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+    </style>
+    <!-- Pustaka Eksternal -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/snarkjs@0.7.0/dist/snarkjs.min.js"></script>
+</head>
+
+<body>
+
+    <h1>🔹 Klien A (Pembuat Penawaran)</h1>
+    <div id="status" class="status info">Siap — Pilih metode autentikasi</div>
+
+    <div>
+        <button class="tombol jwt" onclick="hubungkanJWT()">Hubungkan dengan JWT</button>
+        <button class="tombol zkp" onclick="hubungkanZKP()">Hubungkan dengan ZKP Groth16</button>
+    </div>
+
+    <div class="konten">
+        <div class="kolom">
+            <h3>Video Saya</h3>
+            <video id="videoLokal" autoplay muted playsinline></video>
+        </div>
+        <div class="kolom">
+            <h3>Video Peer B</h3>
+            <video id="videoJauh" autoplay playsinline></video>
+        </div>
+    </div>
+
+    <div class="log" id="logPesan"></div>
+
+    <script>
+        // === KONFIGURASI ===
+        const SERVER_URL = window.location.origin;
+        const JWT_SECRET_SIMULASI = "ganti_dengan_kunci_sama_di_server";
+        let socket, koneksiWebRTC, aliranLokal;
+        const videoLokal = document.getElementById('videoLokal');
+        const videoJauh = document.getElementById('videoJauh');
+        const status = document.getElementById('status');
+        const logPesan = document.getElementById('logPesan');
+
+        // === FUNGSI BANTUAN ===
+        function tulisLog(pesan) {
+            logPesan.innerHTML += `[${new Date().toLocaleTimeString()}] ${pesan}<br>`;
+            logPesan.scrollTop = logPesan.scrollHeight;
+        }
+
+        function ubahStatus(teks, jenis = 'info') {
+            status.className = `status ${jenis}`;
+            status.textContent = teks;
+        }
+
+        // === 1. AUTENTIKASI JWT ===
+        async function hubungkanJWT() {
+            try {
+                ubahStatus('Memproses autentikasi JWT...', 'info');
+                tulisLog('Meminta token JWT ke server...');
+
+                const res = await fetch(`${SERVER_URL}/auth/jwt`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({peerId: 'peer-a-jwt'})
+                });
+                const {token} = await res.json();
+                tulisLog('Token JWT diterima, menghubungkan...');
+
+                socket = io(SERVER_URL, {query: {method: 'jwt', credential: token}});
+                siapkanSocket();
+            } catch (err) {
+                ubahStatus('Gagal: ' + err.message, 'gagal');
+                tulisLog(`❌ Kesalahan JWT: ${err.message}`);
+            }
+        }
+
+        // === 2. AUTENTIKASI ZKP GROTH16 ===
+        async function hubungkanZKP() {
+            try {
+                ubahStatus('Membuat bukti ZKP secara lokal...', 'info');
+                tulisLog('Memuat sirkuit & kunci pembuktian...');
+
+                // Buat bukti TANPA mengirim data rahasia
+                const {proof, publicSignals} = await snarkjs.groth16.fullProve(
+                    {nilaiRahasiaPengguna: 0, hashIdentitasTerdaftar: 0},
+                    `${SERVER_URL}/zkp/circuit_js/circuit.wasm`,
+                    `${SERVER_URL}/zkp/circuit_0000.zkey`
+                );
+
+                const kredensial = btoa(JSON.stringify({proof, publicSignals}));
+                tulisLog('Bukti ZKP selesai dibuat, dikirim ke server...');
+
+                socket = io(SERVER_URL, {query: {method: 'zkp', credential: kredensial}});
+                siapkanSocket();
+            } catch (err) {
+                ubahStatus('Gagal: ' + err.message, 'gagal');
+                tulisLog(`❌ Kesalahan ZKP: ${err.message}`);
+            }
+        }
+
+        // === 3. SIAPKAN KONEKSI SOCKET & WEBRTC ===
+        function siapkanSocket() {
+            socket.on('connect', async () => {
+                ubahStatus('✅ Terhubung ke server', 'sukses');
+                tulisLog('Autentikasi BERHASIL!');
+                await mulaiWebRTC();
+            });
+
+            socket.on('offer', async (data) => {
+                tulisLog(`Menerima penawaran dari ${data.from}`);
+                await koneksiWebRTC.setRemoteDescription(new RTCSessionDescription(data.sdp));
+                const jawaban = await koneksiWebRTC.createAnswer();
+                await koneksiWebRTC.setLocalDescription(jawaban);
+                socket.emit('answer', {target: data.from, sdp: jawaban});
+            });
+
+            socket.on('answer', async (data) => {
+                tulisLog('Menerima jawaban koneksi');
+                await koneksiWebRTC.setRemoteDescription(new RTCSessionDescription(data.sdp));
+            });
+
+            socket.on('ice-candidate', async (data) => {
+                await koneksiWebRTC.addIceCandidate(new RTCIceCandidate(data.candidate));
+            });
+
+            socket.on('disconnect', () => {
+                ubahStatus('Terputus dari server', 'gagal');
+                tulisLog('Koneksi terputus');
+            });
+        }
+
+        // === 4. INISIALISASI KONEKSI WEBRTC ===
+        async function mulaiWebRTC() {
+            try {
+                aliranLokal = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
+                videoLokal.srcObject = aliranLokal;
+
+                koneksiWebRTC = new RTCPeerConnection({iceServers: [{urls: 'stun:stun.l.google.com:19302'}]});
+                aliranLokal.getTracks().forEach(track => koneksiWebRTC.addTrack(track, aliranLokal));
+
+                koneksiWebRTC.ontrack = (e) => {
+                    videoJauh.srcObject = e.streams[0];
+                    tulisLog('Video diterima dari Peer B');
+                };
+
+                koneksiWebRTC.onicecandidate = (e) => {
+                    if (e.candidate) socket.emit('ice-candidate', {target: 'pengguna-terverifikasi-zkp', candidate: e.candidate});
+                };
+
+                // Buat penawaran untuk Peer B
+                const penawaran = await koneksiWebRTC.createOffer();
+                await koneksiWebRTC.setLocalDescription(penawaran);
+                tulisLog('Mengirim penawaran koneksi ke Peer B...');
+                socket.emit('offer', {target: 'pengguna-terverifikasi-zkp', sdp: penawaran});
+
+            } catch (err) {
+                tulisLog(`❌ Kesalahan WebRTC: ${err.message}`);
+            }
+        }
+    </script>
+</body>
+
+</html>

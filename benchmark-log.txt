@@ -1,0 +1,89 @@
+========================================
+🤖 Memulai benchmark otomatis JWT vs ZKP
+   Iterasi per metode: 30
+========================================
+
+
+▶️  Menguji metode: JWT
+   Percobaan 1/30... ❌ gagal (Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.)
+   Percobaan 2/30... ❌ gagal (Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.)
+   Percobaan 3/30... ❌ gagal (Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.)
+   Percobaan 4/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 5/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 6/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 7/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 8/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 9/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 10/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 11/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 12/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 13/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 14/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 15/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 16/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 17/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 18/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 19/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 20/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 21/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 22/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 23/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 24/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 25/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 26/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 27/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 28/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 29/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 30/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+
+▶️  Menguji metode: ZKP
+   Percobaan 1/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 2/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 3/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 4/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 5/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 6/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 7/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 8/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 9/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 10/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 11/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 12/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 13/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 14/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 15/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 16/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 17/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 18/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 19/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 20/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 21/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 22/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 23/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 24/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 25/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 26/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 27/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 28/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 29/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+   Percobaan 30/30... ❌ gagal (net::ERR_CONNECTION_REFUSED at http://localhost:8080/peer-b.html)
+
+========================================
+📊 RINGKASAN HASIL BENCHMARK
+========================================
+
+JWT:
+   Total percobaan : 30
+   Berhasil        : 0
+   Gagal           : 30 (tingkat gagal: 100.0%)
+   Rata-rata durasi total call setup: - ms
+
+ZKP:
+   Total percobaan : 30
+   Berhasil        : 0
+   Gagal           : 30 (tingkat gagal: 100.0%)
+   Rata-rata durasi total call setup: - ms
+
+📄 Detail lengkap tiap tahap tersimpan otomatis di: data/log-pengujian.csv
+
+✅ Benchmark selesai.
